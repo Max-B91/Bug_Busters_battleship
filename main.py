@@ -102,7 +102,7 @@ PROGRAMME PRINCIPAL
 """
 import random
 
-def creer_grille():
+def creer_grille():    #Matias
     grille = [
         # x=0  x=1  x=2  x=3  x=4  x=5  x=6  x=7 x=8
         [0, 0, 0, 0, 0, 0, 0, 0],  # y = 0
@@ -114,29 +114,29 @@ def creer_grille():
     ]
     return grille
 
-def afficher_grille(grille):
+def afficher_grille(grille):    #Jorge
     for ligne in grille:
         print(ligne)
 
-def placer_bateau():
+def placer_bateau():    #Maxime important pas encore fini rappel
     # au moins 2 bateau max taille dun bateau 4 min 2
     ligne_bateau = random.randint(0, 5)
     colonne_bateau = random.randint(0, 7)
     return ligne_bateau, colonne_bateau
 
-def demander_coordonnees():
+def demander_coordonnees():    #Matias
     ligne = int(input("Numéro de ligne (0-5): "))
     colonne = int(input("Numéro de colonne (0-7): "))
     return colonne, ligne
 
-def verifier_coordonnees(colonne, ligne):
+def verifier_coordonnees(colonne, ligne):    #Maxime
     if ligne >= 0 and ligne <= 5 and colonne >= 0 and colonne <= 7:
         return True
     else:
         print("Coordonnées invalides")
         return False
 
-def verifier_tir(ligne, colonne, ligne_bateau, colonne_bateau):
+def verifier_tir(ligne, colonne, ligne_bateau, colonne_bateau):    #Jorge
     if ligne == ligne_bateau and colonne == colonne_bateau:
         print("Bravo ! Vous avez trouvé le bateau !")
         return True
@@ -144,13 +144,13 @@ def verifier_tir(ligne, colonne, ligne_bateau, colonne_bateau):
         print("Tir raté !\n")
         return False
 
-def partie_terminer(chances, bateau_trouve):
+def partie_terminer(chances, bateau_trouve):    #Matias
     if chances == 0 or bateau_trouve is True:
         return True
     else:
         return False
 
-def calculer_statistiques(tirs, bateau_trouve, stats):
+def calculer_statistiques(tirs, bateau_trouve, stats):    #Maxime
     print("\n" + "=" * 30)
     print(" STATISTIQUES DE LA PARTIE")
     print(f"• Tirs effectués cette partie : {tirs}")
@@ -166,7 +166,7 @@ def calculer_statistiques(tirs, bateau_trouve, stats):
     print("=" * 30 + "\n")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":    #Maxime, Jorge, Matias
     recommencer = "oui"
 
     stats = {
@@ -212,7 +212,7 @@ if __name__ == "__main__":
         # Affichage des stats avec les données mises à jour
         calculer_statistiques(tirs, bateau_trouve, stats)
 
-        recommencer = input("Voulez-vous recommencer (oui/non) : ").lower().strip()
+        recommencer = input("Voulez-vous recommencer (oui/non) : ").lower().strip()    #lower mets tout en lower case et strip enleve les espaces inutile
         print("\n" + "=" * 40 + "\n")
 
     print("Merci d'avoir joué !")
