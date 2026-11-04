@@ -1,7 +1,5 @@
 import pytest
 from main import *
-from échauffement_liste import resultat
-
 
 def test_verifier_coordonnees():       #Jorge
     ligne = 9
