@@ -65,7 +65,7 @@ PROGRAMME PRINCIPAL
 
         ligne_bateau, colonne_bateau  placer_bateau()
 
-        chances  5
+        chances  15
         tirs  0
         bateau_trouve  FAUX
 
@@ -102,62 +102,90 @@ PROGRAMME PRINCIPAL
 """
 import random
 
-def creer_grille():    #Matias
+def creer_grille():  # Matias
     grille = [
-        # x=0  x=1  x=2  x=3  x=4  x=5  x=6  x=7 x=8
-        [0, 0, 0, 0, 0, 0, 0, 0],  # y = 0
-        [0, 0, 0, 0, 0, 0, 0, 0],  # y = 1
-        [0, 0, 0, 0, 0, 0, 0, 0],  # y = 2
-        [0, 0, 0, 0, 0, 0, 0, 0],  # y = 3
-        [0, 0, 0, 0, 0, 0, 0, 0],  # y = 4
-        [0, 0, 0, 0, 0, 0, 0, 0]   # y = 5
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]
     ]
     return grille
 
-def afficher_grille(grille):    #Jorge
-    for ligne in grille:
-        print(ligne)
+def afficher_grille(grille):  # Jorge
+    print("\n   0  1  2  3  4  5  6  7")  # Affiche les numéros des colonnes
+    for i in range(len(grille)):
+        print(i, grille[i])  # Affiche le numéro et le contenu de chaque ligne
 
-def placer_bateau():    #Maxime important pas encore fini rappel
-    # au moins 2 bateau max taille dun bateau 4 min 2
-    ligne_bateau = random.randint(0, 5)
-    colonne_bateau = random.randint(0, 7)
-    return ligne_bateau, colonne_bateau
+def placer_bateau():  # Maxime
+    taille_bateau = random.randint(2, 4)
+    orientation = random.choice(["horizontal", "vertical"])
 
-def demander_coordonnees():    #Matias
-    ligne = int(input("Numéro de ligne (0-5): "))
-    colonne = int(input("Numéro de colonne (0-7): "))
-    return colonne, ligne
+    if orientation == "horizontal":
+        ligne_bateau = random.randint(0, 5)
+        colonne_bateau = random.randint(0, 8 - taille_bateau)   # Choisit une colonne de départ qui permet au bateau de rester dans la grille
+    else:
+        ligne_bateau = random.randint(0, 6 - taille_bateau)  # Choisit une ligne de départ qui permet au bateau de rester dans la grille
+        colonne_bateau = random.randint(0, 7)
 
-def verifier_coordonnees(colonne, ligne):    #Maxime
+    lignes = []
+    colonnes = []
+
+    if orientation == "horizontal":
+        for i in range(taille_bateau):
+            lignes.append(ligne_bateau)
+            colonnes.append(colonne_bateau + i)
+    else:
+        for i in range(taille_bateau):
+            lignes.append(ligne_bateau + i)
+            colonnes.append(colonne_bateau)
+
+    return lignes, colonnes
+
+def demander_coordonnees():  # Matias
+    ligne = int(input("Numéro de ligne (0-5) : "))
+    colonne = int(input("Numéro de colonne (0-7) : "))
+
+    return ligne, colonne
+
+def verifier_coordonnees(ligne, colonne):  # Maxime
     if ligne >= 0 and ligne <= 5 and colonne >= 0 and colonne <= 7:
         return True
     else:
         print("Coordonnées invalides")
         return False
 
-def verifier_tir(ligne, colonne, ligne_bateau, colonne_bateau):    #Jorge
-    if ligne == ligne_bateau and colonne == colonne_bateau:
-        print("Bravo ! Vous avez trouvé le bateau !")
-        return True
-    else:
-        print("Tir raté !\n")
-        return False
+def verifier_tir(ligne, colonne, lignes_bateau, colonnes_bateau, cases_touchees):  # Jorge
+    for i in range(len(lignes_bateau)):
+        if ligne == lignes_bateau[i] and colonne == colonnes_bateau[i]:
+            print("Bravo ! Vous avez touché le bateau !")
+            cases_touchees.append((ligne, colonne))
 
-def partie_terminer(chances, bateau_trouve):    #Matias
+            if len(cases_touchees) == len(lignes_bateau):
+                print("Félicitations ! Vous avez trouvé tout le bateau !")
+                return True
+
+            return False
+
+    print("Tir raté !")
+    return False
+
+def partie_terminer(chances, bateau_trouve):  # Matias
     if chances == 0 or bateau_trouve is True:
         return True
     else:
         return False
 
-def calculer_statistiques(tirs, bateau_trouve, stats):    #Maxime
+def calculer_statistiques(tirs, bateau_trouve, stats):  # Maxime
     print("\n" + "=" * 30)
     print(" STATISTIQUES DE LA PARTIE")
     print(f"• Tirs effectués cette partie : {tirs}")
+
     if bateau_trouve:
-        print("• Résultat : Victoire ")
+        print("• Résultat : Victoire")
     else:
-        print("• Résultat : Défaite ")
+        print("• Résultat : Défaite")
 
     print("\n STATISTIQUES GLOBALES")
     print(f"• Victoires totales : {stats['Victoire']}")
@@ -165,8 +193,8 @@ def calculer_statistiques(tirs, bateau_trouve, stats):    #Maxime
     print(f"• Tirs totaux cumulés : {stats['Tirs']}")
     print("=" * 30 + "\n")
 
+if __name__ == "__main__":  # Maxime, Jorge, Matias
 
-if __name__ == "__main__":    #Maxime, Jorge, Matias
     recommencer = "oui"
 
     stats = {
@@ -176,49 +204,67 @@ if __name__ == "__main__":    #Maxime, Jorge, Matias
     }
 
     while recommencer == "oui":
+
         grille = creer_grille()
         afficher_grille(grille)
 
-        ligne_bateau, colonne_bateau = placer_bateau()
+        lignes_bateau, colonnes_bateau = placer_bateau()
+        cases_touchees = []
 
         tirs = 0
-        chances = 5
+        chances = 15
         bateau_trouve = False
 
         while partie_terminer(chances, bateau_trouve) is False:
+
             ligne, colonne = demander_coordonnees()
 
             if verifier_coordonnees(ligne, colonne) is True:
+
+                if grille[ligne][colonne] != 0:
+                    print("Vous avez déjà tiré sur cette case !\n")
+                    continue
+
                 tirs = tirs + 1
                 stats["Tirs"] = stats["Tirs"] + 1
 
-                bateau_trouve = verifier_tir(ligne, colonne, ligne_bateau, colonne_bateau)
+                bateau_trouve = verifier_tir(
+                    ligne,
+                    colonne,
+                    lignes_bateau,
+                    colonnes_bateau,
+                    cases_touchees
+                )
 
-                if bateau_trouve is False:
+                if (ligne, colonne) in cases_touchees:
+                    grille[ligne][colonne] = "X"
+                else:
+                    grille[ligne][colonne] = "-"
                     chances = chances - 1
                     print(f"Il vous reste {chances} chance(s).\n")
 
                 afficher_grille(grille)
-            else:
-                print("Veuillez entrer de nouvelles coordonnées\n")
 
-        # Fin de partie
+            else:
+                print("Veuillez entrer de nouvelles coordonnées.\n")
+
         if bateau_trouve is False:
-            print(f"Le bateau était caché à la ligne {ligne_bateau}, colonne {colonne_bateau}")
+            print("Vous avez perdu !")
+            print(
+                f"Le bateau était caché aux coordonnées : "
+                f"{list(zip(lignes_bateau, colonnes_bateau))}"
+            )  # Combine les lignes et les colonnes pour former les coordonnées du bateau
             stats["Défaite"] = stats["Défaite"] + 1
+
         else:
             stats["Victoire"] = stats["Victoire"] + 1
 
-        # Affichage des stats avec les données mises à jour
         calculer_statistiques(tirs, bateau_trouve, stats)
 
-        recommencer = input("Voulez-vous recommencer (oui/non) : ").lower().strip()    #lower mets tout en lower case et strip enleve les espaces inutile
+        recommencer = input(
+            "Voulez-vous recommencer (oui/non) : "
+        ).lower().strip()
+
         print("\n" + "=" * 40 + "\n")
 
     print("Merci d'avoir joué !")
-
-
-
-
-
-
