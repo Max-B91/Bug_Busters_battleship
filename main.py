@@ -274,3 +274,5 @@ if __name__ == "__main__":  # Maxime, Jorge, Matias
         print("\n" + "=" * 40 + "\n")
 
     print("Merci d'avoir joué !")
+
+    # Réparer test unitaire et ajouter un bateau de plus
