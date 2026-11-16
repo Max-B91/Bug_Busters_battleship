@@ -143,11 +143,17 @@ def placer_bateau():  # Maxime
 
     return lignes, colonnes
 
-def demander_coordonnees():  # Matias
-    ligne = int(input("Numéro de ligne (0-5) : "))
-    colonne = int(input("Numéro de colonne (0-7) : "))
+def demander_coordonnees():  # Matias, Maxime (debug)
+    while True:
+        try:
+            ligne = int(input("Numéro de ligne (0-5) : "))
+            colonne = int(input("Numéro de colonne (0-7) : "))
 
-    return ligne, colonne
+            return ligne, colonne
+
+        except ValueError:
+            print("Erreur ! Vous devez entrer des nombres entiers.\n")
+
 
 def verifier_coordonnees(ligne, colonne):  # Maxime
     if ligne >= 0 and ligne <= 5 and colonne >= 0 and colonne <= 7:
