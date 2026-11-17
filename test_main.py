@@ -34,3 +34,4 @@ def test_calculer_statistique():    #Matias et Maxime
     assert stats["Victoire"] == resultat_attendu_1
     assert stats["Défaite"] == resultat_attendu_2
     assert stats["Tirs"] == resultat_attendu_3
+#
