@@ -7,13 +7,14 @@ def test_verifier_coordonnees():       #Jorge
     resultat_attendu = False
     assert verifier_coordonnees(ligne, colonne) == resultat_attendu
 
-def test_verifier_bateau():    #Maxime
-    ligne_bateau = 0
-    colonne_bateau = 0
-    ligne = 0
-    colonne = 0
+def test_verifier_bateau():  # Maxime
+    ligne_bateau = [0, 1]
+    colonne_bateau = [0, 1]
+    ligne = 1
+    colonne = 1
+    cases_touchees = [(0, 0)]
     resultat_attendu = True
-    assert verifier_tir(ligne, colonne, ligne_bateau, colonne_bateau) == resultat_attendu
+    assert verifier_tir(ligne,colonne,ligne_bateau,colonne_bateau,cases_touchees) == resultat_attendu
 
 def test_partie_terminer():    #Matias
     chance = 1
