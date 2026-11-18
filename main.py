@@ -116,9 +116,11 @@ def creer_grille():  # Matias
 def afficher_grille(grille):  # Jorge
     print("\n   0  1  2  3  4  5  6  7")  # Affiche les numéros des colonnes
     for i in range(len(grille)):
-        print(i, grille[i])  # Affiche le numéro et le contenu de chaque ligne
+        # Original ->  print(i, grille[i])
+        print(i, "[" + ", ".join(map(str, grille[i])) + "]")  # Affiche le numéro et le contenu de chaque ligne
 
 def placer_bateau():  # Maxime
+    # 2 case minimum le bateau et max 4
     taille_bateau = random.randint(2, 4)
     orientation = random.choice(["horizontal", "vertical"])
 
@@ -129,11 +131,12 @@ def placer_bateau():  # Maxime
         ligne_bateau = random.randint(0, 6 - taille_bateau)  # Choisit une ligne de départ qui permet au bateau de rester dans la grille
         colonne_bateau = random.randint(0, 7)
 
-    lignes = []
-    colonnes = []
+    lignes = []      # LISTE : contiendra les lignes occupées par le bateau
+    colonnes = []    # LISTE : contiendra les colonnes occupées par le bateau
 
     if orientation == "horizontal":
         for i in range(taille_bateau):
+            # Ajout dans les listes
             lignes.append(ligne_bateau)
             colonnes.append(colonne_bateau + i)
     else:
@@ -166,6 +169,8 @@ def verifier_tir(ligne, colonne, lignes_bateau, colonnes_bateau, cases_touchees)
     for i in range(len(lignes_bateau)):
         if ligne == lignes_bateau[i] and colonne == colonnes_bateau[i]:
             print("Bravo ! Vous avez touché le bateau !")
+            # TUPLE (ligne, colonne)
+            # Ajouté dans la liste cases_touchees
             cases_touchees.append((ligne, colonne))
 
             if len(cases_touchees) == len(lignes_bateau):
@@ -178,12 +183,15 @@ def verifier_tir(ligne, colonne, lignes_bateau, colonnes_bateau, cases_touchees)
     return False
 
 def partie_terminer(chances, bateau_trouve):  # Matias
+    # bateau_trouve = booléen (True ou False)
     if chances == 0 or bateau_trouve is True:
         return True
     else:
         return False
 
 def calculer_statistiques(tirs, bateau_trouve, stats):  # Maxime
+    # bateau_trouve = booléen
+    # stats = dictionnaire
     print("\n" + "=" * 30)
     print(" STATISTIQUES DE LA PARTIE")
     print(f"• Tirs effectués cette partie : {tirs}")
@@ -192,7 +200,7 @@ def calculer_statistiques(tirs, bateau_trouve, stats):  # Maxime
         print("• Résultat : Victoire")
     else:
         print("• Résultat : Défaite")
-
+    # Accès aux valeurs du dictionnaire
     print("\n STATISTIQUES GLOBALES")
     print(f"• Victoires totales : {stats['Victoire']}")
     print(f"• Défaites totales : {stats['Défaite']}")
@@ -202,7 +210,7 @@ def calculer_statistiques(tirs, bateau_trouve, stats):  # Maxime
 if __name__ == "__main__":  # Maxime, Jorge, Matias
 
     recommencer = "oui"
-
+    # clé : valeur
     stats = {
         "Victoire": 0,
         "Défaite": 0,
@@ -213,8 +221,10 @@ if __name__ == "__main__":  # Maxime, Jorge, Matias
 
         grille = creer_grille()
         afficher_grille(grille)
-
+        # lignes_bateau = liste
+        # colonnes_bateau = liste
         lignes_bateau, colonnes_bateau = placer_bateau()
+        # liste de tuples
         cases_touchees = []
 
         tirs = 0
@@ -232,6 +242,7 @@ if __name__ == "__main__":  # Maxime, Jorge, Matias
                     continue
 
                 tirs = tirs + 1
+                # Modification du dict
                 stats["Tirs"] = stats["Tirs"] + 1
 
                 bateau_trouve = verifier_tir(
@@ -241,7 +252,7 @@ if __name__ == "__main__":  # Maxime, Jorge, Matias
                     colonnes_bateau,
                     cases_touchees
                 )
-
+                # tuples utilisé pour vérifier si la case a été touchée
                 if (ligne, colonne) in cases_touchees:
                     grille[ligne][colonne] = "X"
                 else:
@@ -260,6 +271,7 @@ if __name__ == "__main__":  # Maxime, Jorge, Matias
                 f"Le bateau était caché aux coordonnées : "
                 f"{list(zip(lignes_bateau, colonnes_bateau))}"
             )  # Combine les lignes et les colonnes pour former les coordonnées du bateau
+            # (2, 4) -> [(2, 4), (2, 5), (2, 6)] Sans zip() on as deux listes séparées
             stats["Défaite"] = stats["Défaite"] + 1
 
         else:
