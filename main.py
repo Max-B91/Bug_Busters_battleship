@@ -117,7 +117,7 @@ def afficher_grille(grille):  # Jorge
     print("\n   0  1  2  3  4  5  6  7")  # Affiche les numéros des colonnes
     for i in range(len(grille)):
         # Original ->  print(i, grille[i])
-        print(i, "[" + ", ".join(map(str, grille[i])) + "]")  # Affiche le numéro et le contenu de chaque ligne
+        print(i, "[" + ", ".join(map(str, grille[i])) + "]")  # Affiche le numéro et le contenu de chaque ligne fais avec ai
 
 def placer_bateau():  # Maxime
     # 2 case minimum le bateau et max 4
@@ -149,7 +149,7 @@ def placer_bateau():  # Maxime
 def demander_coordonnees():  # Matias, Maxime (debug)
     while True:
         try:
-            ligne = int(input("Numéro de ligne (0-5) : "))
+            ligne = int(input("\nNuméro de ligne (0-5) : "))
             colonne = int(input("Numéro de colonne (0-7) : "))
 
             return ligne, colonne
@@ -171,7 +171,7 @@ def verifier_tir(ligne, colonne, lignes_bateau, colonnes_bateau, cases_touchees)
             print("Bravo ! Vous avez touché le bateau !")
             # TUPLE (ligne, colonne)
             # Ajouté dans la liste cases_touchees
-            cases_touchees.append((ligne, colonne))
+            cases_touchees.append((ligne, colonne)) # -> Tuples
 
             if len(cases_touchees) == len(lignes_bateau):
                 print("Félicitations ! Vous avez trouvé tout le bateau !")
@@ -202,9 +202,9 @@ def calculer_statistiques(tirs, bateau_trouve, stats):  # Maxime
         print("• Résultat : Défaite")
     # Accès aux valeurs du dictionnaire
     print("\n STATISTIQUES GLOBALES")
-    print(f"• Victoires totales : {stats['Victoire']}")
-    print(f"• Défaites totales : {stats['Défaite']}")
-    print(f"• Tirs totaux cumulés : {stats['Tirs']}")
+    print(f"• Victoires totales : {stats["Victoire"]}")
+    print(f"• Défaites totales : {stats["Défaite"]}")
+    print(f"• Tirs totaux cumulés : {stats["Tirs"]}")
     print("=" * 30 + "\n")
 
 if __name__ == "__main__":  # Maxime, Jorge, Matias
