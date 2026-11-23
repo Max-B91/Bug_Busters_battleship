@@ -56,6 +56,12 @@ FONCTION calculer_statistiques(tirs, bateau_trouve):
 
 
 PROGRAMME PRINCIPAL
+ CRÉER dictionnaire pour statistique
+    stats = {
+        victoire:
+        défaite:
+        tirs:
+    }
     recommencer  "oui"
 
     TANT QUE recommencer est égal à "oui":
@@ -71,29 +77,40 @@ PROGRAMME PRINCIPAL
 
         TANT QUE partie_terminer(chances, bateau_trouve) est FAUX:
 
-            ligne, colonne  demander_coordonnees()
+            ligne, colonne = demander_coordonnees()
 
             SI verifier_coordonnees(ligne, colonne) est VRAI:
+                SI grille[ligne][colonne] est pas égal a 0
+                    AFFICHER "Vous avez déja tirer sur cette case"
+                    CONTINUER
 
-                tirs  tirs + 1
+                tirs = tirs + 1
+                stats["tirs"] = stats["tirs"] + 1
 
-                bateau_trouve  verifier_tir(
+                bateau_trouve = verifier_tir(
                     ligne, colonne,
                     ligne_bateau, colonne_bateau
+                    cases_touchées
                 )
+                SI (ligne,colonne) dans cases_touchees:
+                    grille[ligne][colonne] = "X"
+                SINON:
+                    grille[ligne][colonne] = "-"
+                    chances = chances - 1
+                    AFFICHER nombre de chances restant
+                AFFICHER grille
+                SINON
+                    AFFICHER message pour utilisateurs pour qu'il mettre une nouvelle coordonnée
 
                 SI bateau_trouve est FAUX:
-                    chances  chances - 1
+                    AFFICHER message de défaite
+                    AFFICHER coordonnées du bateau
+                    stats["defaite"] + 1
+                SINON
+                    stats[victoire] + 1
+                     
 
-                afficher_grille(grille)
-
-            SINON:
-                AFFICHER "Veuillez entrer de nouvelles coordonnées"
-
-        SI bateau_trouve est FAUX:
-            AFFICHER la position du bateau
-
-        calculer_statistiques(tirs, bateau_trouve)
+        calculer_statistiques(tirs, bateau_trouve, stats)
 
         DEMANDER au joueur s'il veut recommencer
         LIRE recommencer
