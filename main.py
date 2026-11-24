@@ -11,15 +11,43 @@ FONCTION afficher_grille(grille):
 
 
 FONCTION placer_bateau():
-    Choisir au hasard une ligne entre 0 et 5
-    Choisir au hasard une colonne entre 0 et 7
-    RETOURNER ligne_bateau et colonne_bateau
+    choisir une taille au hazard
+    choisir une orientation (horizontal ou vertical)
 
+    SI orientation choisis est horizontal
+        Choisir au hasard une ligne entre 0 et 5
+        Choisir au hasard une colonne entre 0 et 8
+    SINON
+        Choisir au hasard une ligne entre 0 et 6
+        Choisir au hasard une colonne entre 0 et 7
+    CRÉER listes vides colonne et ligne
+
+    SI orientation est horizontal
+        POUR i in range (taille_bateau)
+            Ajouter liste ligne (liste_bateau + i)
+            ajouter liste colonnes (colonne_bateau + i)
+    SINON
+        POUR i in range(taille_bateau)
+            Ajouter liste ligne (liste_bateau + i)
+            ajouter liste colonnes (colonne_bateau + i)
+    RETOURNER lignes et colonnes
 
 FONCTION demander_coordonnees():
-    DEMANDER au joueur d'entrer une ligne entre 0 et 5
-    DEMANDER au joueur d'entrer une colonne entre 0 et 7
-    RETOURNER ligne et colonne
+    ALORS QUE VRAI:
+        ESSAYER
+            DEMANDER au joueur d'entrer une ligne entre 0 et 5
+            DEMANDER au joueur d'entrer une colonne entre 0 et 7
+            RETOURNER ligne et colonne
+
+        SAUF ValueError
+            AFFICHER message de erreur au joueur
+
+FONCTION verifier_coordonnees(ligne, colonne):
+    SI la ligne >= a 0 ET la ligne est <= a 5 ET colonne >= a 0 ET colonne <= a 7
+        RETOURNER VRAI
+    SINON:
+        AFFICHER "Coordonnées invalides"
+        RETOURNER FAUX
 
 
 FONCTION verifier_coordonnees(ligne, colonne):
@@ -31,14 +59,16 @@ FONCTION verifier_coordonnees(ligne, colonne):
 
 
 FONCTION verifier_tir(ligne, colonne, ligne_bateau, colonne_bateau):
-    SI la ligne correspond à la ligne du bateau ET
-       la colonne correspond à la colonne du bateau:
-        AFFICHER "Bravo ! Vous avez trouvé le bateau !"
-        RETOURNER VRAI
-    SINON:
-        AFFICHER "Tir raté !"
+   POUR i in range(len(lignes_bateau))
+       SI ligne est egal a ligne_bateau[i] ET colonne est egal a colonnes_bateau[i]
+           AFFICHER "Bravo ! Vous avez touché le bateau !"
+            AJOUTER a cases_touchees la ligne et la colonne
+        SI la len(cases_touchees) est egal a len(ligne_bateau)
+            AFFICHER "Félicitations ! Vous avez trouvé tout le bateau !"
+            RETOURNER VRAIE
         RETOURNER FAUX
-
+    AFFICHER "Tir raté !"
+    RETOURNER FAUX
 
 FONCTION partie_terminer(chances, bateau_trouve):
     SI chances est égal à 0 OU bateau_trouve est VRAI:
@@ -49,10 +79,13 @@ FONCTION partie_terminer(chances, bateau_trouve):
 
 FONCTION calculer_statistiques(tirs, bateau_trouve):
     AFFICHER le nombre de tirs effectués
+    AFFICHER touts les tirs
     SI bateau_trouve est VRAI:
         AFFICHER "Victoire"
     SINON:
         AFFICHER "Défaite"
+
+    AFFICHER statistique de victoires totales, défaites totales et les tirs totales
 
 
 PROGRAMME PRINCIPAL
